@@ -1,0 +1,155 @@
+<!DOCTYPE HTML>
+<!--
+	Phantom by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Tarriq Purivatra Portfolio</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-169843122-1"></script>
+		<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+
+		gtag('config', 'UA-169843122-1');
+		</script>
+	</head>
+	<body class="is-preload">
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<div class="inner">
+
+							<!-- Logo -->
+								<a href="index.html" class="logo">
+									<span class="symbol"><img src="images/logo.svg" alt="" /></span><span class="title">Tarriq Purivatra</span>
+								</a>
+
+							<!-- Nav -->
+								<nav>
+									<ul>
+										<li><a href="#menu">Menu</a></li>
+									</ul>
+								</nav>
+
+						</div>
+					</header>
+
+				<!-- Menu -->
+				<nav id="menu">
+					<h2>Menu</h2>
+					<ul>
+						<li><a href="index.html">Home</a></li>
+						<li><a href="work_experience.html">Job Experience</a></li>
+						<li><a href="masters.html">Master's Thesis</a></li>
+						<li><a href="mech.html">Mechanical</a></li>
+						<li><a href="soft.html">Software</a></li>
+						<li><a href="tron.html">Mechatronics</a></li>
+					</ul>
+					<section>
+					<ul class="icons">
+						<!-- 
+						<li><a href="#" class="icon brands style2 fa-twitter"><span class="label">Twitter</span></a></li>
+						<li><a href="#" class="icon brands style2 fa-facebook-f"><span class="label">Facebook</span></a></li>
+						<li><a href="#" class="icon brands style2 fa-instagram"><span class="label">Instagram</span></a></li>
+						<li><a href="#" class="icon brands style2 fa-dribbble"><span class="label">Dribbble</span></a></li>
+						<li><a href="#" class="icon solid style2 fa-phone"><span class="label">Phone</span></a></li>
+						<li><a href="#" class="icon brands style2 fa-500px"><span class="label">500px</span></a></li>
+						-->
+						<li><a href="https://github.com/tarriqpuri" class="icon brands style2 fa-github"><span class="label">GitHub</span></a></li>
+						<li><a href="https://www.linkedin.com/in/tarriq-purivatra/" class="icon brands style2 fa-linkedin"><span class="label">Linkedin</span></a></li>
+						
+						<li><a href="mailto:Tarriq.Purivatra@mail.utoronto.ca" class="icon solid style2 fa-envelope"><span class="label">Email</span></a></li>
+					</ul>	
+					</section>
+
+
+				</nav>
+
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+							<h1>Social Network Analysis</h1>
+							
+							<p><span class="image left"><img src="images/soft_sna_1.jpg" alt="" /></span>This project looks at tweets containing the hashtag #140mafia and the underlying social network that is formed.</p>
+							<br>
+							<p>#140Mafia, or Spymaster as it's better known, is a 2009 game that is played online with game notifications posted on Twitter. A data set of 120 000 tweets was uploaded into a pandas dataframe on jupyter notebook and filtered out for the #140Mafia hashtag. A social Network was built by assigning users to nodes with the networkx tool. A tweet with two users forms an edge, showing an interaction between two users in the game. The nodes and edges are used to form a Social Network Analysis graph.</p>
+							<br>
+							<p><span class="image right"><img src="images/soft_sna_2.jpg" alt="" /></span><br>The resulting graph gives us very few insights besides scale and connectivity of the network. There are a lot of users in this network but there is not a lot of interaction among peers. This is confirmed below using a Degree Distribution Histogram.</p>
+							<br><br>
+							<div class="col-4"><span class="image fit"><img src="images/soft_sna_3.jpg" alt="" /></span></div>
+							<p>Measures of Centrality are used to expand on the social network analysis. The size of each node increases with greater betweenness centrality, indicating a node that connects a large number of other nodes. The colour of the node gets darker with higher degree centrality, indicating the degree or number of nodes that the user interacted with. the thickness of each edge/connection indicates the number of interactions between two nodes.</p>
+							<p><span class="image main"><img src="images/soft_sna_4.jpg" alt="" /></span></p>
+							<p><span class="image left"><img src="images/soft_sna_5.jpg" alt="" /></span>By looking at the node with the highest degree and betweeness centrality we can see that this is in fact a bot. Their top 3 key phrases show that they did not partake in the game. Further analysis would require eliminating these bots to get a more accurate understanding of the social network... however one key take away is that there is no real node with a high degree centrality or betweenness centrality. At least for this #140Mafia game, there is no mob boss.</p>
+							<br><br><br><br>
+						</div>
+					</div>
+
+				<!-- Footer -->
+				<footer id="footer">
+					<div class="inner">
+						<!-- 
+						<section>
+							<h2>Get in touch</h2>
+							<form method="post" action="#">
+								<div class="fields">
+									<div class="field half">
+										<input type="text" name="name" id="name" placeholder="Name" />
+									</div>
+									<div class="field half">
+										<input type="email" name="email" id="email" placeholder="Email" />
+									</div>
+									<div class="field">
+										<textarea name="message" id="message" placeholder="Message"></textarea>
+									</div>
+								</div>
+								<ul class="actions">
+									<li><input type="submit" value="Send" class="primary" /></li>
+								</ul>
+							</form>
+						</section>
+					-->
+						<section>
+							<h2>Links</h2>
+							<ul class="icons">
+								<!-- 
+								<li><a href="#" class="icon brands style2 fa-twitter"><span class="label">Twitter</span></a></li>
+								<li><a href="#" class="icon brands style2 fa-facebook-f"><span class="label">Facebook</span></a></li>
+								<li><a href="#" class="icon brands style2 fa-instagram"><span class="label">Instagram</span></a></li>
+								<li><a href="#" class="icon brands style2 fa-dribbble"><span class="label">Dribbble</span></a></li>
+								<li><a href="#" class="icon solid style2 fa-phone"><span class="label">Phone</span></a></li>
+								<li><a href="#" class="icon brands style2 fa-500px"><span class="label">500px</span></a></li>
+								-->
+								<li><a href="https://github.com/tarriqpuri" class="icon brands style2 fa-github"><span class="label">GitHub</span></a></li>
+								<li><a href="https://www.linkedin.com/in/tarriq-purivatra/" class="icon brands style2 fa-linkedin"><span class="label">Linkedin</span></a></li>
+								
+								<li><a href="mailto:Tarriq.Purivatra@mail.utoronto.ca" class="icon solid style2 fa-envelope"><span class="label">Email</span></a></li>
+							</ul>
+						</section>
+						<ul class="copyright">
+							<li>&copy; Tarriq Purivatra. All rights reserved</li><!-- <li>Design: <a href="http://html5up.net">HTML5 UP</a></li> -->
+						</ul>
+					</div>
+				</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE HTML>
+<!--
+	Phantom by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Tarriq Purivatra Portfolio</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-169843122-1"></script>
+		<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+
+		gtag('config', 'UA-169843122-1');
+		</script>
+	</head>
+	<body class="is-preload">
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<div class="inner">
+
+							<!-- Logo -->
+								<a href="index.html" class="logo">
+									<span class="symbol"><img src="images/logo.svg" alt="" /></span><span class="title">Tarriq Purivatra</span>
+								</a>
+
+							<!-- Nav -->
+								<nav>
+									<ul>
+										<li><a href="#menu">Menu</a></li>
+									</ul>
+								</nav>
+
+						</div>
+					</header>
+
+				<!-- Menu -->
+				<nav id="menu">
+					<h2>Menu</h2>
+					<ul>
+						<li><a href="index.html">Home</a></li>
+						<li><a href="work_experience.html">Job Experience</a></li>
+						<li><a href="masters.html">Master's Thesis</a></li>
+						<li><a href="mech.html">Mechanical</a></li>
+						<li><a href="soft.html">Software</a></li>
+						<li><a href="tron.html">Mechatronics</a></li>
+					</ul>
+					<section>
+					<ul class="icons">
+						<li><a href="https://github.com/tarriqpuri" class="icon brands style2 fa-github"><span class="label">GitHub</span></a></li>
+						<li><a href="https://www.linkedin.com/in/tarriq-purivatra/" class="icon brands style2 fa-linkedin"><span class="label">Linkedin</span></a></li>
+						
+						<li><a href="mailto:Tarriq.Purivatra@mail.utoronto.ca" class="icon solid style2 fa-envelope"><span class="label">Email</span></a></li>
+					</ul>	
+					</section>
+				</nav>
+
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+							<h1>Computer Vision</h1>
+							
+							<p><span class="image right"><img src="images/soft_cv_1.png" alt="" /></span>This purpose of this project is to work with a team of 5 to control a turtlebot using ROS (Robot Operating System). The goal is for the turtlebot to find various cereal boxes in a maze and correctly identify which cereal box was found at each location. The turtlebot that was used can be seen in the picture on the left.</p>
+							<br>
+							<p>My role in this project was to write, test and implement the OpenCV code for the turtlebot. I was responsible for designing the algorithm, which required some iterative testing and research before it became successful.</p>
+							<br>
+							<p><img src="images/soft_cv_3.png" alt="" width = 60%/><span class="image right"><img src="images/soft_cv_2.png" alt="" /></span><br><br><br>The flow charts show the final algorithm that was developed. FindPic is the code that is called to identify the image. It splits up the program into 3 steps. First is image processing, where the image is made greyscale and the image is cropped (based on trial and error and only works for turtlebots, given their height and the height of the cereal box). The next step is feature detection which is accomplished using SURF detector and matched with stored images using FLANN. Finally, the image identification is completed by creating a homography matrix from the features. If an appropriate rectangle is made when comparing the features in the stored image and real time image, success! We have a match and we can now store this match location as a specific cereal box.</p>
+							<br>
+							<p>A failure and a success for the image recognition software is shown below.<br><br></p>
+							<p><span class="image main"><img src="images/soft_cv_4.png" alt="" /></span></p>
+							<p><span class="image main"><img src="images/soft_cv_5.png" alt="" /></span></p>
+							<p>The code is shown below.</p>
+							
+							<h3>OpenCV Code</h3>
+									<pre><code>
+
+//::::::::::::::::::::::::::::::::IMAGE PROCESSING BASE CODE::::::::::::::::::::::::::::::::&#10;&#10;#include &#34;func_header.h&#34;&#10;&#10;#include &lt;stdio.h&gt;&#10;#include &lt;stdlib.h&gt;&#10;#include &lt;vector&gt;&#10;#include &lt;iostream&gt;&#10;#include &#34;opencv2/core.hpp&#34;&#10;#include &#34;opencv2/imgproc.hpp&#34;&#10;#include &#34;opencv2/features2d.hpp&#34;&#10;#include &#34;opencv2/highgui.hpp&#34;&#10;#include &#34;opencv2/calib3d.hpp&#34;&#10;#include &#34;opencv2/xfeatures2d.hpp&#34;&#10;#include &lt;algorithm&gt;&#10;&#10;#include &lt;cv.h&gt;&#10;#include &lt;highgui.h&gt;&#10;&#10;using namespace cv;&#10;using namespace cv::xfeatures2d;&#10;&#10;int findPic(imageTransporter &amp;imgTransport, vector&lt;cv::Mat&gt; imgs_track){&#10;&#9;&#10;  &#9;//imgs_track is already grayscale&#10;&#9;cv::namedWindow(&#34;view&#34;);&#10;  &#9;int foundPic = 0;&#10;  &#9;&#10;  &#9;cv::Mat video;&#10;&#9;&#9;cout &lt;&lt;&#34;before if empty&#34;&lt;&lt; endl;&#10;&#9;&#9;video = imgTransport.getImg();  //scene image&#10;  &#9;if(!video.empty()){&#10;&#9;&#9;//fill with your code&#10;&#9;&#9;cout &lt;&lt;&#34;entered if empty&#34;&lt;&lt; endl;&#10;&#9;&#9;cv::Mat gray_video;&#10;&#9;&#9;//try cropping gray video&#10;&#9;&#9;&#10;&#9;&#9;cvtColor(video, gray_video, CV_BGR2GRAY);&#10;   &#9;&#9;cv::Mat gray_videocrop = gray_video(Range(gray_video.rows/3, gray_video.rows), &#10;Range::all());&#10;      &#10;&#9;&#9;double min_of_min = 100; &#9;//the smallest minimum distance computed&#10;&#9;&#9;std::vector&lt;vector&lt;DMatch &gt; &gt; matches(3);&#10;&#9;&#9;//cv::Mat descriptors_object, descriptors_scene;&#10;&#9;&#9;std::vector&lt;Mat&gt; descriptors_object(3), descriptors_scene(3);&#10;      &#10;&#9;&#9;std::vector&lt;vector&lt;KeyPoint&gt; &gt; keypoints_object(3), keypoints_scene(3);&#10;&#9;&#9;&#10;&#9;&#9;//get smallest minimum distance of all tags&#10;&#9;&#9;for(int i=0; i&lt;imgs_track.size(); i++){&#10;&#9;&#9;//-- Step 1 &amp; 2: Detect the keypoints and calculate descriptors using &#10;SURF Detector&#10;&#9;&#9;cout &lt;&lt;&#34;entered for loop&#34;&lt;&lt; endl;&#10;&#9;&#9;int minHessian = 400;&#10;&#9;&#9;&#10;&#9;&#9;Ptr&lt;SURF&gt; detector = SURF::create(minHessian);&#10;&#9;&#9;&#9;&#10;&#9;&#9;&#9;&#10;&#9;&#9;detector-&gt;detectAndCompute(imgs_track[i], Mat(), keypoints_object[i], &#10;descriptors_object[i]);&#10;&#9;&#9;detector-&gt;detectAndCompute(gray_videocrop, Mat(), keypoints_scene[i], &#10;descriptors_scene[i]);&#10;&#9;&#9;&#9;//cout &lt;&lt; matches.size() &lt;&lt; endl;&#10;      &#10;&#9;&#9;//-- Step 3: Matching descriptor vectors using FLANN matcher&#10;&#9;&#9;FlannBasedMatcher matcher;&#10;&#9;&#9;matcher.match( descriptors_object[i], descriptors_scene[i], matches[i] );&#10;&#9;&#9;&#9;//cout &lt;&lt;&#34;after match&#34;&lt;&lt; endl;&#10;&#9;&#9;&#9;&#10;&#9;&#9;&#9;double max_dist = 0;&#10;&#9;&#9;&#9;double min_dist = 100;&#10;&#9;&#9;&#9;&#10;&#9;&#9;&#9;//-- Quick calculation of max and min distances between keypoints&#10;&#9;&#9;&#9;for( int j = 0; j &lt; descriptors_object[i].rows; j++ ){&#10;&#9;&#9;&#9;&#9;double dist = matches[i][j].distance;&#10;&#9;&#9;&#9;&#9;if( dist &lt; min_dist ){ &#10;&#9;&#9;&#9;&#9;&#9;min_dist = dist;}&#10;&#9;&#9;&#9;&#9;if( dist &gt; max_dist ){ &#10;&#9;&#9;&#9;&#9;&#9;max_dist = dist;}&#10;&#9;&#9;&#9;}&#10;&#9;&#9;&#9;cout &lt;&lt; i &lt;&lt; &#34;: min &#34; &lt;&lt; min_dist &lt;&lt; endl ;&#10;&#9;&#9;&#9;if(min_of_min &gt; min_dist){&#10;&#9;&#9;&#9;&#9;min_of_min = min_dist;&#10;&#9;&#9;&#9;}&#9;&#10;&#9;&#9;}&#10;    &#9;&#9;cout &lt;&lt; &#34;: min min &#34; &lt;&lt; min_of_min &lt;&lt; endl ;&#10;&#9;&#9;&#10;&#9;&#9;//cout &lt;&lt;&#34;after distance calc&#34;&lt;&lt; endl;&#10;&#9;&#9;//Find the image with the greatest number of good matches/inliers&#10;&#9;&#9;std::vector&lt;vector&lt; DMatch &gt; &gt; good_matches(3);&#10;&#9;&#10;&#9;&#9;for(int i=0; i&lt;imgs_track.size(); i++){&#10;&#9;&#9;&#9;cout &lt;&lt; &#34;matches vector : &#34; &lt;&lt; matches[i].size()  &lt;&lt; endl;&#10;&#9;&#9;&#9;for( int j = 0; j &lt; descriptors_object[i].rows; j++ ){&#10;&#9;&#9;&#9;//cout &lt;&lt; &#34; arg1: &#34; &lt;&lt; matches[i][j].distance &lt;&lt; &#34; arg2 : &#34;&lt;&lt; &#10;1.5*min_of_min &lt;&lt; endl;&#10;&#9;&#9;&#9;double dist = matches[i][j].distance;&#10;&#9;&#9;&#9;if( abs(dist) &lt; 3.0*min_of_min) //**********// &amp;&amp; dist &gt;=0.0&#10;&#9;&#9;&#9;&#9;{ good_matches[i].push_back( matches[i][j]);&#10;&#10;           &#9;&#9;if (i==0){&#10;&#9;&#9;&#9;//cout &lt;&lt; &#34; arg1: &#34; &lt;&lt; matches[i][j].distance &lt;&lt; &#34; arg2 : &#34;&lt;&lt; &#10;3*min_of_min &lt;&lt; endl;&#10;&#9;&#9;&#9;&#9;&#9;}&#10;&#9;&#9;&#9;&#9; }&#10;&#9;&#9;&#9;}&#10;&#9;&#9;}&#10;&#9;&#9;&#10;&#10;&#9;&#9;std::vector&lt;Mat&gt; img_matches(3);&#10;&#9;&#9;for(int i=0; i&lt;imgs_track.size(); i++){&#10;&#9;&#9;&#9;&#10;&#9;&#9;drawMatches( imgs_track[i] , keypoints_object[i], gray_videocrop, &#10;keypoints_scene[i],&#10;               good_matches[i], img_matches[i], Scalar::all(-1), Scalar::all(-1),&#10;               &#9;&#9;vector&lt;char&gt;(), DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS );&#10;&#9;&#9;&#9;imshow(&#34;ayyy&#34;, img_matches[i]);&#10;&#9;&#9;&#9;//waitKey(0);&#10;&#9;&#9;}&#10;&#9;&#9;&#10;&#9;&#9;std::vector&lt;vector&lt;Point2f&gt; &gt; obj(3);&#10;&#9;&#9;std::vector&lt;vector&lt;Point2f&gt; &gt; scene(3);&#10;&#9;&#9;std::vector&lt;Mat&gt; H(3);&#10;&#9;&#9;&#10;&#9;for(int i=0; i&lt;imgs_track.size(); i++){&#10;&#9;&#9;for( int j = 0; j &lt; good_matches[i].size(); j++ ){&#10;&#9;&#9;//-- Get the keypoints from the good matches&#10;&#9;&#9;obj[i].push_back( keypoints_object[i][ good_matches[i][j].queryIdx ].pt );&#10;&#9;&#9;scene[i].push_back( keypoints_scene[i][ good_matches[i][j].trainIdx ].pt );&#10;&#9;&#9;&#9;}&#10;&#9;&#9;if( obj[i].size() &gt;=4 &amp;&amp; scene[i].size() &gt;=4){&#10;&#9;&#9;&#9;H[i] = findHomography( obj[i], scene[i], CV_RANSAC );&#10;&#9;&#9;&#9;}&#10;&#9;&#9;}&#10;&#9;&#9;&#10;&#9;std::vector&lt;vector&lt;Point2f&gt; &gt; obj_corners(3, vector&lt;Point2f&gt;(4));&#10;&#9;&#9;&#10;&#9;for(int i=0; i&lt;imgs_track.size(); i++){&#10;&#9;&#9;obj_corners[i][0] = cvPoint(0,0); &#9;&#9;&#9;//top left&#10;&#9;&#9;obj_corners[i][1] = cvPoint( imgs_track[i].cols, 0 ); //top right&#10;&#9;&#9;obj_corners[i][2] = cvPoint( imgs_track[i].cols, imgs_track[i].rows ); //bottom &#10;right&#10;&#9;&#9;obj_corners[i][3] = cvPoint( 0, imgs_track[i].rows );&#9;//bottom left&#10;&#9;&#9;}&#10;&#9;&#9;&#10;&#9;&#9;std::vector&lt;Point2f&gt; scene_corners(4);&#10;&#9;&#9;std::vector&lt;float&gt; img_error_values(3, 100.0);&#10;&#9;&#9;std::vector&lt;float&gt; top_ratio(3, 0);&#10;&#9;&#9;std::vector&lt;float&gt; side_ratio(3, 0);&#10;&#9;&#9;cout &lt;&lt; top_ratio[1] &lt;&lt; endl;&#10;&#9;&#9;double pixel_error = 12.0;&#9;//play with this number&#10;&#9;&#9;&#10;&#9;&#9;&#10;&#9;//if a transformation matrix exists, compare distance of opposite sides of scene image &#10;corners. Tag corres&#10;&#9;&#9;for(int i=0; i&lt;imgs_track.size(); i++){&#10;&#9;&#9;&#9;if(!H[i].empty()){&#10;&#9;&#9;&#9;&#9;perspectiveTransform( obj_corners[i], scene_corners, H[i]);&#10;&#9;&#9;&#9;&#9;/*cout &lt;&lt; &#34;Scene 0 : &#34; &lt;&lt; scene_corners[0] &lt;&lt; endl;&#10;&#9;&#9;&#9;&#9;cout &lt;&lt; &#34;Scene 1 : &#34; &lt;&lt; scene_corners[1] &lt;&lt; endl;&#10;&#9;&#9;&#9;&#9;cout &lt;&lt; &#34;Scene 2 : &#34; &lt;&lt; scene_corners[2] &lt;&lt; endl;&#10;&#9;&#9;&#9;&#9;cout &lt;&lt; &#34;Scene 3 : &#34; &lt;&lt; scene_corners[3] &lt;&lt; endl;*/&#10;&#10;&#9;&#9;&#9;&#9;top_ratio[i] = sqrt((scene_corners[1].x-scene_corners[0].x)*(scene_corners[1].x-scene_corners[0].x)&#9;+(scene_corners[1].y-scene_corners[0].y)*(scene_corners[1].y-scene_corners[0].y))/sqrt((scene_corners[3].x-scene_corners[2].x)*(scene_corners[3].x-scene_corners[2].x)&#9;+(scene_corners[3].y-scene_corners[2].y)*(scene_corners[3].y-scene_corners[2].y)) ;&#10;&#10;&#9;&#9;&#9;&#9;side_ratio[i] = sqrt((scene_corners[3].x-scene_corners[0].x)*(scene_corners[3].x-scene_corners[0].x)&#9;+(scene_corners[3].y-scene_corners[0].y)*(scene_corners[3].y-scene_corners[0].y))/sqrt((scene_corners[2].x-scene_corners[1].x)*(scene_corners[2].x-scene_corners[1].x)&#9;+(scene_corners[2].y-scene_corners[1].y)*(scene_corners[2].y-scene_corners[1].y)) ;&#10;&#10;&#9;&#9;&#9;&#9;cout &lt;&lt; top_ratio[i] &lt;&lt; endl;&#10;&#9;&#9;&#9;&#9;cout &lt;&lt; side_ratio[i] &lt;&lt; endl;&#10;&#9;&#9;&#9;&#9;if (top_ratio[i] &gt; 0.6 &amp;&amp; top_ratio[i]&lt;1.4){&#10;&#9;&#9;&#9;&#9;&#9;if (side_ratio[i] &gt; 0.6 &amp;&amp; side_ratio[i]&lt;1.4){&#10;&#9;&#9;&#9;&#9;&#9;&#9;foundPic = i + 1;&#9;&#9;&#9;&#10;&#9;&#9;&#9;&#9;}&#10;&#9;&#9;&#9;}&#10;&#9;&#9;&#9;}&#10;&#10;&#10;&#9;//-- Draw lines between the corners (the mapped object in the scene - image_2 )&#10;  line( img_matches[i], scene_corners[0] + Point2f( imgs_track[i].cols, 0), scene_corners[1] + Point2f( imgs_track[i].cols, 0), Scalar(0, 255, 0), 4 );&#10;  line( img_matches[i], scene_corners[1] + Point2f( imgs_track[i].cols, 0), scene_corners[2] + Point2f( imgs_track[i].cols, 0), Scalar( 0, 255, 0), 4 );&#10;  line( img_matches[i], scene_corners[2] + Point2f( imgs_track[i].cols, 0), scene_corners[3] + Point2f( imgs_track[i].cols, 0), Scalar( 0, 255, 0), 4 );&#10;  line( img_matches[i], scene_corners[3] + Point2f( imgs_track[i].cols, 0), scene_corners[0] + Point2f( imgs_track[i].cols, 0), Scalar( 0, 255, 0), 4 );&#10;&#10;&#9;&#9;imshow(&#34;ayyy&#34;, img_matches[i]);&#10;&#9;&#9;//waitKey(0);&#10;&#9;&#9;}&#10;&#9;&#9;/*&#10;&#9;&#9;//no tag found&#10;&#9;&#9;if( img_error_values[0] &gt; pixel_error &amp;&amp; img_error_values[1] &gt; pixel_error &amp;&amp; img_error_values[2] &gt; pixel_error ){&#10;&#9;&#9;&#9;foundPic = 0 ;&#10;&#9;&#9;}&#10;&#9;&#9;else{ //index of the object with smallest pixel error factor is identified&#10;&#9;&#9;&#9;std::vector&lt;float&gt;::iterator smallest_error = std::min_element(img_error_values.begin(), img_error_values.end());&#10;&#9;&#9;&#9;foundPic = std::distance(img_error_values.begin(), smallest_error) + 1;&#10;&#9;&#9;}&#10;*/&#10;&#10;&#9;&#9;cv::imshow(&#34;view&#34;, video);&#10;&#9;&#9;video.release();&#10;  &#9;}&#10;  &#10;  &#9;return foundPic;&#10;}&#10;
+
+						</code></pre>
+						</div>
+					</div>
+
+				<!-- Footer -->
+				<footer id="footer">
+					<div class="inner">
+						<!-- 
+						<section>
+							<h2>Get in touch</h2>
+							<form method="post" action="#">
+								<div class="fields">
+									<div class="field half">
+										<input type="text" name="name" id="name" placeholder="Name" />
+									</div>
+									<div class="field half">
+										<input type="email" name="email" id="email" placeholder="Email" />
+									</div>
+									<div class="field">
+										<textarea name="message" id="message" placeholder="Message"></textarea>
+									</div>
+								</div>
+								<ul class="actions">
+									<li><input type="submit" value="Send" class="primary" /></li>
+								</ul>
+							</form>
+						</section>
+					-->
+						<section>
+							<h2>Links</h2>
+							<ul class="icons">
+								<!-- 
+								<li><a href="#" class="icon brands style2 fa-twitter"><span class="label">Twitter</span></a></li>
+								<li><a href="#" class="icon brands style2 fa-facebook-f"><span class="label">Facebook</span></a></li>
+								<li><a href="#" class="icon brands style2 fa-instagram"><span class="label">Instagram</span></a></li>
+								<li><a href="#" class="icon brands style2 fa-dribbble"><span class="label">Dribbble</span></a></li>
+								<li><a href="#" class="icon solid style2 fa-phone"><span class="label">Phone</span></a></li>
+								<li><a href="#" class="icon brands style2 fa-500px"><span class="label">500px</span></a></li>
+								-->
+								<li><a href="https://github.com/tarriqpuri" class="icon brands style2 fa-github"><span class="label">GitHub</span></a></li>
+								<li><a href="https://www.linkedin.com/in/tarriq-purivatra/" class="icon brands style2 fa-linkedin"><span class="label">Linkedin</span></a></li>
+								
+								<li><a href="mailto:Tarriq.Purivatra@mail.utoronto.ca" class="icon solid style2 fa-envelope"><span class="label">Email</span></a></li>
+							</ul>
+						</section>
+						<ul class="copyright">
+							<li>&copy; Tarriq Purivatra. All rights reserved</li><!-- <li>Design: <a href="http://html5up.net">HTML5 UP</a></li> -->
+						</ul>
+					</div>
+				</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
